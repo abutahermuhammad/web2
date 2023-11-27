@@ -13,7 +13,14 @@ server.on('request', (req, res) => {
         res.write(chunk);
     });
 
+    readableStream.on('error', (err) => {
+        res.statusCode = 500;
+        console.log(err);
+        res.end("something went wrong!");
+    });
+
     readableStream.on('end', () => {
+        res.statusCode = 200;
         res.end("read complete");
     });
 
